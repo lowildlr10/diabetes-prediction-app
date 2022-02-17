@@ -27,23 +27,28 @@ def load_csv_data(file_dir, head=0, tail=0):
 
 def load_chart(data, kind):
     if kind == 'line':
-        st.write("Line Chart")
-        st.line_chart(data)
+        opt_chart_visible = st.checkbox("Line Chart", ('Show'))
+        if opt_chart_visible:
+            st.line_chart(data)
     elif kind == 'area':
-        st.write("Area Chart")
-        st.area_chart(df[columns])
+        opt_chart_visible = st.checkbox("Area Chart", ('Show'))
+        if opt_chart_visible:
+            st.area_chart(data)
     elif kind == 'bar':
-        st.write("Bar Chart")
-        st.bar_chart(df[columns])
+        opt_chart_visible = st.checkbox("Bar Chart", ('Show'))
+        if opt_chart_visible:
+            st.bar_chart(data)
     else:
-        st.write("Line Chart")
-        st.line_chart(data)
+        opt_chart_visible = st.checkbox("Line Chart", ('Show'))
+        if opt_chart_visible:
+            st.line_chart(data)
         
 
-        
+
 #st.set_page_config(layout="wide")
 st.title("Diabetes Predictor App")
 st.write("From the diabetes data, we built a machine learning model for diabetes predictions.")
+st.code("https://github.com/lowildlr10/diabetes-prediction-app.git")
 st.markdown("""---""")
 
 
@@ -62,6 +67,7 @@ loaded_model = joblib.load(filename)
 
 # Sidebar
 st.sidebar.title("Diabetes Predictor App Parameters")
+st.sidebar.markdown("""---""")
 
 # Dataframe visibility
 st.sidebar.subheader("Data Frame Visibility")
