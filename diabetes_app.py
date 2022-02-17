@@ -28,16 +28,16 @@ def load_csv_data(file_dir, head=0, tail=0):
 def load_chart(data, kind):
     if kind == 'line':
         st.write("Line Chart")
-        st.line_chart(data.describe())
+        st.line_chart(data)
     elif kind == 'area':
         st.write("Area Chart")
-        st.area_chart(df[columns].describe())
+        st.area_chart(df[columns])
     elif kind == 'bar':
         st.write("Bar Chart")
-        st.bar_chart(df[columns].describe())
+        st.bar_chart(df[columns])
     else:
         st.write("Line Chart")
-        st.line_chart(data.describe())
+        st.line_chart(data)
         
 
 #st.set_page_config(layout="wide")
@@ -49,7 +49,7 @@ filename = "diabetes_classification.csv"
 df = load_csv_data(filename, head=20)
 
 # Initialize columns and target
-columns = ['Glucose', 'BMI', 'Age', 'BloodPressure', 'Outcome']
+columns = ['Glucose', 'BMI', 'Age', 'BloodPressure']
 target = 'Outcome'
 
 # Sidebar
