@@ -44,6 +44,7 @@ def load_chart(data, kind):
 #st.set_page_config(layout="wide")
 st.title("Diabetes Predictor App")
 st.write("From the diabetes data, we built a machine learning model for diabetes predictions.")
+st.markdown("""---""")
 
 
 # Initialize CSV data
