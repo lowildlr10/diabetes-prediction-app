@@ -40,9 +40,11 @@ def load_chart(data, kind):
         st.line_chart(data)
         
 
+        
 #st.set_page_config(layout="wide")
 st.title("Diabetes Predictor App")
 st.write("From the diabetes data, we built a machine learning model for diabetes predictions.")
+
 
 # Initialize CSV data
 filename = "diabetes_classification.csv"
@@ -52,9 +54,23 @@ df = load_csv_data(filename, head=20)
 columns = ['Glucose', 'BMI', 'Age', 'BloodPressure']
 target = 'Outcome'
 
+# Loading the model
+filename = 'finalized_model_diabetes.sav'
+loaded_model = joblib.load(filename)
+
+
 # Sidebar
 st.sidebar.title("Diabetes Predictor App Parameters")
-st.sidebar.write("Tweak to change predictions")
+
+# Dataframe visibility
+st.sidebar.subheader("Data Frame Visibility")
+option_sidebar = st.sidebar.checkbox("Hide")
+if not option_sidebar:
+    st.caption(f"Data Frame: '{filename}'")
+    st.write(df)
+    st.write("\n\n")
+    
+st.sidebar.subheader("Tweak to change predictions")
 
 # Glucose
 glucose = st.sidebar.slider("Glucose", 0, 200, 70)
@@ -68,13 +84,17 @@ age = st.sidebar.slider("Age", 0, 150, 15)
 # Blood Pressure
 blood_pressure = st.sidebar.slider("Blood Pressure", 0, 300, 100)
 
-# Dataframe visibility
-st.sidebar.subheader("Data Frame Visibility")
-option_sidebar = st.sidebar.checkbox("Hide")
-if not option_sidebar:
-    st.caption(f"Data Frame: '{filename}'")
-    st.write(df)
-    st.write("\n\n")
+# [Glucose, BMI, Age, BloodPressure]
+prediction = round(loaded_model.predict([[glucose, bmi, age, blood_pressure]])[0])
+
+if prediction == 0:
+    risk_status = "No"
+else:
+    risk_status = "Yes"
+    
+st.sidebar.subheader("Predictions")
+st.sidebar.write(f"Risk to Diabetes?: {risk_status}")
+
     
 # Line chart
 load_chart(df[columns], "line")
@@ -87,18 +107,6 @@ load_chart(df[columns], "bar")
 
 # Main Page
 st.subheader("Predictions")
-
-# Loading the model
-filename = 'finalized_model_diabetes.sav'
-loaded_model = joblib.load(filename)
-
-# [Glucose, BMI, Age, BloodPressure]
-prediction = round(loaded_model.predict([[glucose, bmi, age, blood_pressure]])[0])
-
-if prediction == 0:
-    risk_status = "No"
-else:
-    risk_status = "Yes"
 
 st.write(f"Risk to Diabetes?: {risk_status}")
 
